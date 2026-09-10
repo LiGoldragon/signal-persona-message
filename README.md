@@ -3,9 +3,9 @@
 The ordinary Message ingress Interface. It carries the client-to-message and
 message-to-router relations in one typed family.
 
-`ethos/interface.ethos` is the sole authored Interface projection. The build
+`ethos/signal.ethos` is the sole authored Interface projection. The build
 assembles it as an authority-approved transaction and checks the committed
-strict Rust projection in `src/schema/lib/generated.rs`. Every Type is exposed
+strict Rust projection in `src/generated/signal.rs`. Every Type is exposed
 only by its encoded identity. The current bootstrap stage keeps `Input` and
 `Output` as explicit handwritten roles over those Types; Dotos retains the
 human domain names at the textual boundary.

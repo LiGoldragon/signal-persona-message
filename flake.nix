@@ -40,36 +40,13 @@
         packages.default = craneLib.buildPackage (commonArgs // { inherit cargoArtifacts; });
         checks = {
           build = craneLib.cargoBuild (commonArgs // { inherit cargoArtifacts; });
-          test  = craneLib.cargoTest  (commonArgs // { inherit cargoArtifacts; });
-          test-round-trip = craneLib.cargoTest (commonArgs // {
-            inherit cargoArtifacts;
-            cargoTestExtraArgs = "--test round_trip";
-          });
-          test-message-roles = craneLib.cargoTest (commonArgs // {
-            inherit cargoArtifacts;
-            cargoTestExtraArgs = "--test message_roles";
-          });
-          test-interface-contract = craneLib.cargoTest (commonArgs // {
-            inherit cargoArtifacts;
-            cargoTestExtraArgs = "--test interface_contract";
-          });
-          test-dependency-boundary = craneLib.cargoTest (commonArgs // {
-            inherit cargoArtifacts;
-            cargoTestExtraArgs = "--test dependency_boundary";
-          });
-          test-doc = craneLib.cargoTest (commonArgs // {
-            inherit cargoArtifacts;
-            cargoTestExtraArgs = "--doc";
-          });
-          doc = craneLib.cargoDoc (commonArgs // {
-            inherit cargoArtifacts;
-            RUSTDOCFLAGS = "-D warnings";
-          });
+          test = craneLib.cargoTest (commonArgs // { inherit cargoArtifacts; });
+          test-generated-contract = craneLib.cargoTest (commonArgs // { inherit cargoArtifacts; cargoTestExtraArgs = "--test generated_contract"; });
+          test-datom = craneLib.cargoTest (commonArgs // { inherit cargoArtifacts; cargoTestExtraArgs = "--features datom --test generated_contract"; });
+          test-doc = craneLib.cargoTest (commonArgs // { inherit cargoArtifacts; cargoTestExtraArgs = "--doc"; });
+          doc = craneLib.cargoDoc (commonArgs // { inherit cargoArtifacts; RUSTDOCFLAGS = "-D warnings"; });
           fmt = craneLib.cargoFmt { inherit src; };
-          clippy = craneLib.cargoClippy (commonArgs // {
-            inherit cargoArtifacts;
-            cargoClippyExtraArgs = "--all-targets -- -D warnings";
-          });
+          clippy = craneLib.cargoClippy (commonArgs // { inherit cargoArtifacts; cargoClippyExtraArgs = "--all-targets --all-features -- -D warnings"; });
         };
         devShells.default = pkgs.mkShell {
           name = "signal-message";

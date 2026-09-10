@@ -13,7 +13,7 @@ Consumers project them into their own runtime state at the boundary.
 
 ## Authority and projection
 
-`ethos/interface.ethos` is a role-free `Interface.{1 0 0}` document. The
+`ethos/signal.ethos` is a role-free `Signal` document. The
 producer-owned bootstrap manifest records the authority identity, grammar
 seats, canonical order, and opaque declaration identities. `build.rs`
 assembles the text with that authority state and asks schema-rust 0.15 for the
@@ -51,10 +51,10 @@ never trusted from an ordinary client payload.
 ## Code map
 
 ```text
-ethos/interface.ethos             authored Interface text
+ethos/signal.ethos             authored Interface text
 src/bootstrap_manifest.rs         producer-owned authority seats
 build.rs                          verified assembly and strict projection
-src/schema/lib/generated.rs       checked encoded Type projection
+src/generated/signal.rs       checked encoded Type projection
 src/schema/lib/behavior.rs        handwritten bootstrap behavior and roles
 tests/interface_contract.rs       role-free source and strictness witnesses
 tests/message_roles.rs            role seating and order witnesses

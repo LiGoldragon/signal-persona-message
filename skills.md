@@ -2,7 +2,7 @@
 
 Read `ARCHITECTURE.md` before editing this repository.
 
-Keep `ethos/interface.ethos` as the sole authored Interface source. Add or
+Keep `ethos/signal.ethos` as the sole authored Interface source. Add or
 change Types through the authority manifest and strict generation path. Opaque
 identity seats are minted once and recorded; they are never derived from a
 spelling, position, or content digest.

@@ -1,0 +1,625 @@
+#![allow(dead_code, non_camel_case_types, non_snake_case)]
+#[rustfmt::skip]
+pub type Messages = std::vec::Vec<InboxEntry>;
+#[rustfmt::skip]
+pub type EngineIdentifier = String;
+#[rustfmt::skip]
+pub type MessageSocketPath = WirePath;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum IdentityProvenance {
+    Seated,
+    Reseated,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct InternalComponentInstanceOrigin {
+    pub component_name: ComponentName,
+    pub component_instance_name: ComponentInstanceName,
+}
+#[rustfmt::skip]
+pub type MessageRecipient = String;
+#[rustfmt::skip]
+pub type ComponentIngresses = std::vec::Vec<ComponentMessageIngress>;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct ThreadRelation {
+    pub repository_name: RepositoryName,
+    pub feature_branch_name: FeatureBranchName,
+}
+#[rustfmt::skip]
+pub type InboxQuery = MessageRecipient;
+#[rustfmt::skip]
+pub type BoundAgentEndpoint = AgentIdentifier;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum MessageKind {
+    Send,
+    Inbox,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum MessageOperationKind {
+    QueryThreads,
+    Submit,
+    QueryThread,
+    SubscribeThread,
+    QueryInbox,
+    QueryAgentRegistry,
+    SubmitStamped,
+    AssignAgentIdentity,
+    BindAgentEndpoint,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct InboxEntry {
+    pub message_slot: MessageSlot,
+    pub message_sender: MessageSender,
+    pub message_body: MessageBody,
+    pub thread_selection: ThreadSelection,
+    pub stamped_at: StampedAt,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum ThreadRelationSelection {
+    None,
+    Related(ThreadRelation),
+}
+#[rustfmt::skip]
+pub type ResumeIdentity = String;
+#[rustfmt::skip]
+pub type StampedAt = TimestampNanos;
+#[rustfmt::skip]
+pub type UnixUserIdentifier = i64;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct MessageRequestUnimplementedReply {
+    pub message_operation_kind: MessageOperationKind,
+    pub message_unimplemented_reason: MessageUnimplementedReason,
+}
+#[rustfmt::skip]
+pub type ComponentInstanceName = String;
+#[rustfmt::skip]
+pub type RepositoryName = String;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum ThreadIndexQuery {
+    All,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum ProcessPinSelection {
+    Pinned(HarnessProcessPin),
+    None,
+}
+#[rustfmt::skip]
+pub type ParticipantName = String;
+#[rustfmt::skip]
+pub type HarnessStartTime = i64;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum AgentDeathMark {
+    NotDead,
+    Killed,
+}
+#[rustfmt::skip]
+pub type SocketMode = i64;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum EndpointSelection {
+    Bound(AgentEndpoint),
+    None,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct HarnessProcessPin {
+    pub harness_pid: HarnessPid,
+    pub harness_start_time: HarnessStartTime,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum OwnerIdentity {
+    UnixUser(UnixUserIdentifier),
+    System(SystemPrincipal),
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum ResumeSelection {
+    Resumed(ResumeIdentity),
+    None,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct ThreadSubscriptionAcknowledgment {
+    pub thread_name: ThreadName,
+    pub participant_name: ParticipantName,
+}
+#[rustfmt::skip]
+pub type HostName = String;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum ThreadRejectionReason {
+    UnknownThread,
+    StoreRejected,
+}
+#[rustfmt::skip]
+pub type ThreadEntries = std::vec::Vec<ThreadEntry>;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum MessageUnimplementedReason {
+    DependencyMissing(DependencyKind),
+    NotInPrototypeScope,
+    ResourceUnavailable(ResourceKind),
+}
+#[rustfmt::skip]
+pub type MessageBody = String;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct ThreadIndexEntries {
+    pub threads: Threads,
+}
+#[rustfmt::skip]
+pub type MessageCount = i64;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct AgentEndpoint {
+    pub agent_endpoint_kind: AgentEndpointKind,
+    pub endpoint_path: EndpointPath,
+}
+#[rustfmt::skip]
+pub type Host = HostName;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum DependencyKind {
+    Mind,
+    Router,
+    Harness,
+    Terminal,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct AgentIdentityAssignment {
+    pub agent_identifier: AgentIdentifier,
+    pub process_pin_selection: ProcessPinSelection,
+    pub resume_selection: ResumeSelection,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct AgentRegistryListingReply {
+    pub entries: Entries,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct AgentRegistryEntry {
+    pub agent_identifier: AgentIdentifier,
+    pub endpoint_selection: EndpointSelection,
+    pub resume_selection: ResumeSelection,
+    pub agent_death_mark: AgentDeathMark,
+    pub process_pin_selection: ProcessPinSelection,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct ComponentMessageIngress {
+    pub internal_component_instance_origin: InternalComponentInstanceOrigin,
+    pub ingress_socket_path: IngressSocketPath,
+    pub socket_mode: SocketMode,
+}
+#[rustfmt::skip]
+pub type SubmissionAcceptance = MessageSlot;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct ThreadSummary {
+    pub thread_name: ThreadName,
+    pub thread_relation_selection: ThreadRelationSelection,
+    pub participants: Participants,
+    pub message_count: MessageCount,
+}
+#[rustfmt::skip]
+pub type AgentRegistryRejection = AgentRegistryRejectionReason;
+#[rustfmt::skip]
+pub type TimestampNanos = i64;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct AssignedAgentIdentity {
+    pub agent_identifier: AgentIdentifier,
+    pub identity_provenance: IdentityProvenance,
+}
+#[rustfmt::skip]
+pub type ErrorReport = ErrorMessage;
+#[rustfmt::skip]
+pub type Entries = std::vec::Vec<AgentRegistryEntry>;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct MessageSubmission {
+    pub message_recipient: MessageRecipient,
+    pub message_kind: MessageKind,
+    pub message_body: MessageBody,
+    pub thread_selection: ThreadSelection,
+}
+#[rustfmt::skip]
+pub type IngressSocketPath = WirePath;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum MessageOrigin {
+    External(ConnectionClass),
+    InternalComponentInstance(InternalComponentInstanceOrigin),
+    Internal(ComponentName),
+}
+#[rustfmt::skip]
+pub type MessageSlot = i64;
+#[rustfmt::skip]
+pub type ErrorMessage = String;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct InboxListingReply {
+    pub messages: Messages,
+}
+#[rustfmt::skip]
+pub type ThreadRejection = ThreadRejectionReason;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum SubmissionRejectionReason {
+    RecipientNotFound,
+    StoreRejected,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum ThreadSelection {
+    Named(ThreadName),
+    None,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum ResourceKind {
+    RouterSocket,
+    Store,
+    PeerCredentials,
+    MessageSocket,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum AgentEndpointKind {
+    HarnessSocket,
+    PtySocket,
+}
+#[rustfmt::skip]
+pub type HarnessPid = i64;
+#[rustfmt::skip]
+pub type AgentIdentifier = String;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum ConnectionClass {
+    Owner,
+    Network(NetworkPeer),
+    OtherPersona(OtherPersonaEngine),
+    System(SystemPrincipal),
+    NonOwnerUser(UnixUserIdentifier),
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct AgentEndpointBinding {
+    pub agent_identifier: AgentIdentifier,
+    pub agent_endpoint: AgentEndpoint,
+    pub harness_pid: HarnessPid,
+    pub harness_start_time: HarnessStartTime,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct ThreadSubscription {
+    pub thread_name: ThreadName,
+    pub participant_name: ParticipantName,
+    pub thread_relation_selection: ThreadRelationSelection,
+}
+#[rustfmt::skip]
+pub type Participants = std::vec::Vec<ParticipantName>;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum AgentRegistryQuery {
+    All,
+    ByAgent(AgentIdentifier),
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum AgentRegistryRejectionReason {
+    UnknownAgentIdentifier,
+    StoreRejected,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct OtherPersonaEngine {
+    pub engine_identifier: EngineIdentifier,
+    pub host: Host,
+}
+#[rustfmt::skip]
+pub type EndpointPath = WirePath;
+#[rustfmt::skip]
+pub type SubmissionRejection = SubmissionRejectionReason;
+#[rustfmt::skip]
+pub type MessageSocketMode = SocketMode;
+#[rustfmt::skip]
+pub type SupervisionSocketMode = SocketMode;
+#[rustfmt::skip]
+pub type FeatureBranchName = String;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum ComponentName {
+    Introspect,
+    Terminal,
+    System,
+    Mind,
+    Spirit,
+    Message,
+    Harness,
+    Router,
+    Orchestrate,
+}
+#[rustfmt::skip]
+pub type WirePath = String;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct ThreadEntry {
+    pub message_slot: MessageSlot,
+    pub message_sender: MessageSender,
+    pub message_body: MessageBody,
+    pub stamped_at: StampedAt,
+}
+#[rustfmt::skip]
+pub type NetworkPeer = String;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct StampedMessageSubmission {
+    pub message_submission: MessageSubmission,
+    pub message_origin: MessageOrigin,
+    pub stamped_at: StampedAt,
+}
+#[rustfmt::skip]
+pub type SupervisionSocketPath = WirePath;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct MessageDaemonConfiguration {
+    pub message_socket_path: MessageSocketPath,
+    pub message_socket_mode: MessageSocketMode,
+    pub supervision_socket_path: SupervisionSocketPath,
+    pub supervision_socket_mode: SupervisionSocketMode,
+    pub router_socket_path: RouterSocketPath,
+    pub component_ingresses: ComponentIngresses,
+    pub owner_identity: OwnerIdentity,
+}
+#[rustfmt::skip]
+pub type MessageSender = String;
+#[rustfmt::skip]
+pub type RouterSocketPath = WirePath;
+#[rustfmt::skip]
+pub type ThreadName = String;
+#[rustfmt::skip]
+pub type SystemPrincipal = String;
+#[rustfmt::skip]
+pub type Threads = std::vec::Vec<ThreadSummary>;
+#[rustfmt::skip]
+pub type ThreadQuery = ThreadName;
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub struct ThreadContents {
+    pub thread_name: ThreadName,
+    pub thread_relation_selection: ThreadRelationSelection,
+    pub participants: Participants,
+    pub thread_entries: ThreadEntries,
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum Query {
+    Submit(MessageSubmission),
+    SubmitStamped(StampedMessageSubmission),
+    QueryInbox(InboxQuery),
+    AssignAgentIdentity(AgentIdentityAssignment),
+    BindAgentEndpoint(AgentEndpointBinding),
+    QueryAgentRegistry(AgentRegistryQuery),
+    QueryThread(ThreadQuery),
+    SubscribeThread(ThreadSubscription),
+    QueryThreads(ThreadIndexQuery),
+}
+#[rustfmt::skip]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(
+    feature = "datom",
+    derive(datom_codec::Datomizable, datom_codec::Compositional)
+)]
+pub enum Response {
+    SubmissionAccepted(SubmissionAcceptance),
+    SubmissionRejected(SubmissionRejection),
+    InboxListing(InboxListingReply),
+    AgentIdentityAssigned(AssignedAgentIdentity),
+    AgentEndpointBound(BoundAgentEndpoint),
+    AgentRegistryListing(AgentRegistryListingReply),
+    AgentRegistryRejected(AgentRegistryRejection),
+    MessageRequestUnimplemented(MessageRequestUnimplementedReply),
+    Error(ErrorReport),
+    ThreadListing(ThreadContents),
+    ThreadSubscribed(ThreadSubscriptionAcknowledgment),
+    ThreadIndexListing(ThreadIndexEntries),
+    ThreadRejected(ThreadRejection),
+}
